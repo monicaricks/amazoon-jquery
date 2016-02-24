@@ -1,28 +1,4 @@
 $(document).ready(function(){
-    var products = [
-      {
-        name: "Amazon Fire TV",
-        manufacturer: "Amazoon",
-        imageSrc: "assets/images/product01.jpg",
-        description: "Eligible for free shipping and returns",
-        price: 89.99
-      },
-      {
-        name: "Amazon Fire",
-        manufacturer: "Amazoon",
-        imageSrc: "assets/images/product02.jpg",
-        description: "Eligible for free shipping and returns",
-        price: 69.00
-      },
-      {
-        name: "Amazon Echo",
-        manufacturer: "Amazoon",
-        imageSrc: "assets/images/product03.jpg",
-        description: "Eligible for free shipping and returns",
-        price: 109.99
-      }
-    ];
-
     var updateView = function(){
       //hide/show the .empty h3 tags based on the 
       var productsInCart = $('.cart .product');
@@ -44,16 +20,18 @@ $(document).ready(function(){
 
       //update the cart's total
       var totalPrice = 0;
-      productsInCart.each(function()){
+      productsInCart.each(function(){
         totalPrice += Number($(this).data('price'));
-      }
+      })
     $('.cart-total .red').text("$" + totalPrice.toFixed(2));
 
     };
 
-    var productTemplate = $('template#product').html();
+    $.get('http://portal.batchacademy.com/api/wdfne/amazoon-products', function(products){
+
+      var productTemplate = $('template#product').html();
   
-    for(var i = 0; i < products.length; i++){
+      for(var i = 0; i < products.length; i++){
 
       var newProduct = $(productTemplate);
 
@@ -75,8 +53,7 @@ $(document).ready(function(){
     }
     updateView();
 
-
-    $('.move').on('click', function(){
+      $('.move').on('click', function(){
       var thisClass = $(this).parents().eq(4).attr('class');
         if(thisClass === 'cart'){
           $(this).text("Add to cart");
@@ -86,8 +63,35 @@ $(document).ready(function(){
           $(this).parents().eq(3).prependTo('.cart');
       }
       updateView();
-      });
+    });
+      
+    });
 
+
+    //console.log(products);
+    // var products = [
+    //   {
+    //     name: "Amazon Fire TV",
+    //     manufacturer: "Amazoon",
+    //     imageSrc: "assets/images/product01.jpg",
+    //     description: "Eligible for free shipping and returns",
+    //     price: 89.99
+    //   },
+    //   {
+    //     name: "Amazon Fire",
+    //     manufacturer: "Amazoon",
+    //     imageSrc: "assets/images/product02.jpg",
+    //     description: "Eligible for free shipping and returns",
+    //     price: 69.00
+    //   },
+    //   {
+    //     name: "Amazon Echo",
+    //     manufacturer: "Amazoon",
+    //     imageSrc: "assets/images/product03.jpg",
+    //     description: "Eligible for free shipping and returns",
+    //     price: 109.99
+    //   }
+    // ];
 
 
   });
